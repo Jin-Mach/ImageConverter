@@ -1,2 +1,3 @@
 PyQt6>=6.10
 pywin32; sys_platform == "win32"
+pyqt6-sip
