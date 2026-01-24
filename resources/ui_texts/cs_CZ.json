@@ -1,0 +1,26 @@
+{
+  "mainWindow": {
+    "titleText": "Převodník obrázků",
+    "titleLabelText": "Váš osobní pomocník",
+    "imagesGroupText": "Obrázky",
+    "imagePathLabelText": "Vyberte obrázek(y):",
+    "imagePathEditText": "Vyberte obrázek(y) z cesty..",
+    "imageButtonText": "Vybrat",
+    "outputGroupText": "Výstup",
+    "outputPathLabelText": "Vyberte výstupní složku:",
+    "outputPathEditText": "Vyberte výstupní cestu..",
+    "outputButtonText": "Vybrat",
+    "optionsGroupText": "Možnosti",
+    "formatGroupText": "Formát",
+    "formatLabelText": "Formát:",
+    "resizeGroupText": "Velikost",
+    "widthLabelText": "Šířka:",
+    "heightLabelText": "Výška:",
+    "ratioLabelText": "Poměr:",
+    "convertButtonText": "Převést"
+  },
+  "errorDialog": {
+    "textLabelText": "Chyba!",
+    "closeButtonText": "Zavřít"
+  }
+}

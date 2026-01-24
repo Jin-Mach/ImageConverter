@@ -1,0 +1,26 @@
+{
+  "mainWindow": {
+    "titleText": "Image Converter",
+    "titleLabelText": "Your personal helper",
+    "imagesGroupText": "Images",
+    "imagePathLabelText": "Select image(s):",
+    "imagePathEditText": "Select image(s) from path..",
+    "imageButtonText": "Select",
+    "outputGroupText": "Output",
+    "outputPathLabelText": "Select output folder:",
+    "outputPathEditText": "Select output path..",
+    "outputButtonText": "Select",
+    "optionsGroupText": "Options",
+    "formatGroupText": "Format",
+    "formatLabelText": "Format:",
+    "resizeGroupText": "Resize",
+    "widthLabelText": "Width:",
+    "heightLabelText": "Height:",
+    "ratioLabelText": "Ratio:",
+    "convertButtonText": "Convert"
+  },
+  "errorDialog": {
+    "textLabelText": "Error!",
+    "closeButtonText": "Close"
+  }
+}

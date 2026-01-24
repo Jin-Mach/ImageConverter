@@ -7,6 +7,13 @@ class ErrorHandler:
     logger = get_logger()
 
     @staticmethod
-    def write_log_exception(class_name: str, exception: Exception, parent=None) -> None:
+    def exception_handler(class_name: str, exception: Exception, ui_texts=None, parent=None) -> None:
+        try:
+            ErrorHandler.write_log_exception(class_name=class_name, exception=exception)
+            DialogsProvider.get_error_dialog(error_message=str(exception), ui_texts=ui_texts, parent=parent)
+        except Exception as e:
+            ErrorHandler.write_log_exception(class_name=class_name, exception=e)
+
+    @staticmethod
+    def write_log_exception(class_name: str, exception: Exception) -> None:
         ErrorHandler.logger.error(f"{class_name}: {exception}", exc_info=True)
-        DialogsProvider.get_error_dialog(error_message=str(exception), parent=parent)
