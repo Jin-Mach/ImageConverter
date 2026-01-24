@@ -19,6 +19,11 @@
     "ratioLabelText": "Ratio:",
     "convertButtonText": "Convert"
   },
+  "menuBar": {
+    "mainMenuText": "Menu",
+    "settingsActionText": "Settings",
+    "aboutActionText": "About application"
+  },
   "errorDialog": {
     "textLabelText": "Error!",
     "closeButtonText": "Close"

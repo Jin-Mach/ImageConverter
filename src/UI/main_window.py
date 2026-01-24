@@ -6,12 +6,15 @@ from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QGroupBox, QHBoxL
 from src.Helpers.error_handler import ErrorHandler
 from src.Helpers.language_provider import LanguageProvider
 from src.UI.UI_widgets.list_view import ListView
+from src.UI.UI_widgets.menu_bar import MenuBar
 
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self.setObjectName("mainWindow")
+        menu_bar = MenuBar(self)
+        self.setMenuBar(menu_bar)
         self.setCentralWidget(self.create_gui())
         self.set_ui_text()
 

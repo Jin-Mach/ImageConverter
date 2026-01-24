@@ -19,6 +19,11 @@
     "ratioLabelText": "Poměr:",
     "convertButtonText": "Převést"
   },
+  "menuBar": {
+    "mainMenuText": "Menu",
+    "settingsActionText": "Nastavení",
+    "aboutActionText": "O aplikaci"
+  },
   "errorDialog": {
     "textLabelText": "Chyba!",
     "closeButtonText": "Zavřít"
