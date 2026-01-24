@@ -24,6 +24,21 @@
     "settingsActionText": "Nastavení",
     "aboutActionText": "O aplikaci"
   },
+  "aboutDialog": {
+    "titleText": "O aplikaci",
+    "infoGroupText": "Informace",
+    "nameLabelText": "Název:",
+    "authorLabelText": "Autor:",
+    "versionLabelText": "Verze:",
+    "githubLabelText": "GitHub:",
+    "nameLabelDefaultText": "Převodník obrázků",
+    "authorLabelDefaultText": "Jin-Mach",
+    "versionLabelDefaultText": "1.0.0",
+    "githubLabelDefaultText": "<a href=\"https://github.com/Jin-Mach/ImageConverter\">GitHub repozitář</a>",
+    "descriptionGroupText": "Popis",
+    "descriptionEditText": "Jednoduchý nástroj pro převod obrázků do různých formátů s možností úpravy velikosti.",
+    "closeButtonText": "Zavřít"
+  },
   "errorDialog": {
     "textLabelText": "Chyba!",
     "closeButtonText": "Zavřít"

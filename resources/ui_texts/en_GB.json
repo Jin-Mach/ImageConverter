@@ -22,7 +22,22 @@
   "menuBar": {
     "mainMenuText": "Menu",
     "settingsActionText": "Settings",
-    "aboutActionText": "About application"
+    "aboutActionText": "About the application"
+  },
+  "aboutDialog": {
+    "titleText": "About the application",
+    "infoGroupText": "Information",
+    "nameLabelText": "Name:",
+    "authorLabelText": "Author:",
+    "versionLabelText": "Version:",
+    "githubLabelText": "GitHub:",
+    "nameLabelDefaultText": "Image Converter",
+    "authorLabelDefaultText": "Jin-Mach",
+    "versionLabelDefaultText": "1.0.0",
+    "githubLabelDefaultText": "<a href=\"https://github.com/Jin-Mach/ImageConverter\">GitHub repository</a>",
+    "descriptionGroupText": "Description",
+    "descriptionEditText": "A simple tool for converting images into various formats with optional resizing.",
+    "closeButtonText": "Close"
   },
   "errorDialog": {
     "textLabelText": "Error!",
