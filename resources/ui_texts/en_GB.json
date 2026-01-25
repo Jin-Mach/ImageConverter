@@ -24,6 +24,26 @@
     "settingsActionText": "Settings",
     "aboutActionText": "About the application"
   },
+  "settingsDialog": {
+    "titleText": "Settings",
+    "pathGroupText": "Paths",
+    "inputLabelText": "Input path:",
+    "outputLabelText": "Output path:",
+    "inputButtonSetText": "Set",
+    "inputButtonResetText": "Reset",
+    "outputButtonSetText": "Set",
+    "outputButtonResetText": "Reset",
+    "optionsGroupText": "Options",
+    "formatLabelText": "Format:",
+    "formatButtonSetText": "Set",
+    "formatButtonResetText": "Reset",
+    "widthLabelText": "Width:",
+    "heightLabelText": "Height:",
+    "sizeButtonSetText": "Set",
+    "sizeButtonResetText": "Reset",
+    "saveButtonText": "Save",
+    "closeButtonText": "Close"
+  },
   "aboutDialog": {
     "titleText": "About the application",
     "infoGroupText": "Information",

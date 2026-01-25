@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import QMenuBar, QMenu
 from src.Helpers.error_handler import ErrorHandler
 from src.Helpers.language_provider import LanguageProvider
 from src.UI.UI_widgets.about_dialog import AboutDialog
+from src.UI.UI_widgets.settings_dialog import SettingsDialog
 
 
 class MenuBar(QMenuBar):
@@ -20,6 +21,7 @@ class MenuBar(QMenuBar):
         main_menu.setObjectName("mainMenu")
         setting_action = QAction("", main_menu)
         setting_action.setObjectName("settingsAction")
+        setting_action.triggered.connect(self.show_settings_dialog)
         about_action = QAction("", main_menu)
         about_action.setObjectName("aboutAction")
         about_action.triggered.connect(self.show_about_dialog)
@@ -30,7 +32,7 @@ class MenuBar(QMenuBar):
 
     def set_ui_texts(self) -> None:
         try:
-            default_text = "Unknow text"
+            default_text = "Unknown text"
             ui_texts = LanguageProvider.get_ui_texts(self.objectName())
             widgets = self.findChildren((QMenu, QAction))
             if not ui_texts or not widgets:
@@ -48,6 +50,13 @@ class MenuBar(QMenuBar):
     def show_about_dialog(self) -> None:
         try:
             dialog = AboutDialog(self)
+            dialog.exec()
+        except Exception as e:
+            ErrorHandler.exception_handler(self.__class__.__name__, e, ui_texts=self.error_texts, parent=self.parent)
+
+    def show_settings_dialog(self) -> None:
+        try:
+            dialog = SettingsDialog(self)
             dialog.exec()
         except Exception as e:
             ErrorHandler.exception_handler(self.__class__.__name__, e, ui_texts=self.error_texts, parent=self.parent)

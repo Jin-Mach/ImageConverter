@@ -1,6 +1,6 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGroupBox, QLabel, QTextEdit, QDialogButtonBox, \
-    QPushButton
+    QPushButton, QWidget
 
 from src.Helpers.error_handler import ErrorHandler
 from src.Helpers.language_provider import LanguageProvider
@@ -80,7 +80,7 @@ class AboutDialog(QDialog):
         try:
             default_text = "Unknown text"
             ui_texts = LanguageProvider.get_ui_texts(self.objectName())
-            widgets = self.findChildren((QLabel, QTextEdit, QDialogButtonBox, QGroupBox))
+            widgets = self.findChildren(QWidget)
             if not ui_texts or not widgets:
                 raise ValueError(f"Texts: {ui_texts} or {widgets} not found.")
             self.setWindowTitle(ui_texts.get("titleText", ""))

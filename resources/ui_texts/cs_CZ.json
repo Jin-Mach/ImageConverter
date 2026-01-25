@@ -24,6 +24,26 @@
     "settingsActionText": "Nastavení",
     "aboutActionText": "O aplikaci"
   },
+  "settingsDialog": {
+    "titleText": "Nastavení",
+    "pathGroupText": "Cesty",
+    "inputLabelText": "Cesta vstupu:",
+    "outputLabelText": "Cesta k výstupu:",
+    "inputButtonSetText": "Nastavit",
+    "inputButtonResetText": "Reset",
+    "outputButtonSetText": "Nastavit",
+    "outputButtonResetText": "Reset",
+    "optionsGroupText": "Možnosti",
+    "formatLabelText": "Formát:",
+    "formatButtonSetText": "Nastavit",
+    "formatButtonResetText": "Reset",
+    "widthLabelText": "Šířka:",
+    "heightLabelText": "Výška:",
+    "sizeButtonSetText": "Nastavit",
+    "sizeButtonResetText": "Reset",
+    "saveButtonText": "Uložit",
+    "closeButtonText": "Zavřít"
+  },
   "aboutDialog": {
     "titleText": "O aplikaci",
     "infoGroupText": "Informace",
