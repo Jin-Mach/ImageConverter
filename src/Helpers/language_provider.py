@@ -7,7 +7,7 @@ from src.Helpers.error_handler import ErrorHandler
 
 
 class LanguageProvider:
-    class_name = "languageProvider"
+
     ui_texts_path = pathlib.Path(__file__).parents[2].joinpath("resources", "ui_texts")
     default_language = "en_GB"
     language_code = QLocale().name() or default_language
@@ -29,5 +29,5 @@ class LanguageProvider:
                 json_text = json.load(file)
             return json_text.get(class_name, {})
         except Exception as e:
-            ErrorHandler.write_log_exception(class_name=class_name, exception=e)
+            ErrorHandler.write_log_exception(class_name=LanguageProvider.__name__, exception=e)
             return None

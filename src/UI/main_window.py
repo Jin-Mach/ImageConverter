@@ -126,8 +126,7 @@ class MainWindow(QMainWindow):
                     elif isinstance(widget, QLineEdit):
                         widget.setPlaceholderText(ui_texts.get(text_key, default_text))
         except Exception as e:
-            ui_texts = LanguageProvider.get_ui_texts("errorDialog")
-            ErrorHandler.exception_handler(self.__class__.__name__, e, ui_texts=ui_texts, parent=self)
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
 
     def showEvent(self, event: QEvent) -> None:
         screen = QApplication.primaryScreen()

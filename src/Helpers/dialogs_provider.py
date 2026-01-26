@@ -3,7 +3,6 @@ from PyQt6.QtWidgets import QDialog, QVBoxLayout, QLabel, QDialogButtonBox, QApp
 
 
 class DialogsProvider:
-    class_name = "DialogsProvider"
 
     @staticmethod
     def get_error_dialog(error_message: str, ui_texts=None, parent=None) -> None:

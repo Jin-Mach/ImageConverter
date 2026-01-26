@@ -94,5 +94,4 @@ class AboutDialog(QDialog):
                     elif isinstance(widget, QTextEdit):
                         widget.setPlainText(ui_texts.get(text_key, default_text))
         except Exception as e:
-            ui_texts = LanguageProvider.get_ui_texts("errorDialog")
-            ErrorHandler.exception_handler(self.__class__.__name__, e, ui_texts=ui_texts, parent=self.parent)
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.parent)

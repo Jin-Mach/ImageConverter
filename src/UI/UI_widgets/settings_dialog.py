@@ -48,7 +48,6 @@ class SettingsDialog(QDialog):
         format_label.setObjectName("formatLabel")
         format_combo = QComboBox()
         format_combo.setObjectName("formatCombo")
-        format_combo.addItems(["PNG", "JPEG", "BMP"])
         format_button_set = QPushButton()
         format_button_set.setObjectName("formatButtonSet")
         format_button_reset = QPushButton()
@@ -114,5 +113,4 @@ class SettingsDialog(QDialog):
                     elif isinstance(widget, (QLabel, QPushButton)):
                         widget.setText(ui_texts.get(text_key, default_text))
         except Exception as e:
-            error_texts = LanguageProvider.get_ui_texts("errorDialog")
-            ErrorHandler.exception_handler(self.__class__.__name__, e, ui_texts=error_texts, parent=self.parent)
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.parent)
