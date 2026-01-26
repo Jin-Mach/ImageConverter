@@ -1,10 +1,9 @@
 {
   "mainWindow": {
     "titleText": "Image Converter",
-    "titleLabelText": "Your personal helper",
+    "titleLabelText": "Image Conversion Tool",
     "imagesGroupText": "Images",
-    "imagePathLabelText": "Select image(s):",
-    "imagePathEditText": "Select image(s) from path..",
+    "imagePathLabelText": "Select images:",
     "imageButtonText": "Select",
     "outputGroupText": "Output",
     "outputPathLabelText": "Select output folder:",
@@ -13,10 +12,9 @@
     "optionsGroupText": "Options",
     "formatGroupText": "Format",
     "formatLabelText": "Format:",
-    "resizeGroupText": "Resize",
-    "widthLabelText": "Width:",
-    "heightLabelText": "Height:",
-    "ratioLabelText": "Ratio:",
+    "sizeGroupText": "Size",
+    "resolutionLabelText": "Resolution:",
+    "ratioLabelText": "Keep aspect ratio:",
     "convertButtonText": "Convert"
   },
   "menuBar": {
@@ -37,10 +35,9 @@
     "formatLabelText": "Format:",
     "formatButtonSetText": "Set",
     "formatButtonResetText": "Reset",
-    "widthLabelText": "Width:",
-    "heightLabelText": "Height:",
-    "sizeButtonSetText": "Set",
-    "sizeButtonResetText": "Reset",
+    "resolutionLabelText": "Resolution:",
+    "resolutionButtonSetText": "Set",
+    "resolutionButtonResetText": "Reset",
     "saveButtonText": "Save",
     "closeButtonText": "Close"
   },

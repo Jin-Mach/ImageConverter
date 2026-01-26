@@ -1,10 +1,9 @@
 {
   "mainWindow": {
     "titleText": "Převodník obrázků",
-    "titleLabelText": "Váš osobní pomocník",
+    "titleLabelText": "Nástroj pro převod obrázků",
     "imagesGroupText": "Obrázky",
-    "imagePathLabelText": "Vyberte obrázek(y):",
-    "imagePathEditText": "Vyberte obrázek(y) z cesty..",
+    "imagePathLabelText": "Vybrat obrázky:",
     "imageButtonText": "Vybrat",
     "outputGroupText": "Výstup",
     "outputPathLabelText": "Vyberte výstupní složku:",
@@ -13,10 +12,9 @@
     "optionsGroupText": "Možnosti",
     "formatGroupText": "Formát",
     "formatLabelText": "Formát:",
-    "resizeGroupText": "Velikost",
-    "widthLabelText": "Šířka:",
-    "heightLabelText": "Výška:",
-    "ratioLabelText": "Poměr:",
+    "sizeGroupText": "Velikost",
+    "resolutionLabelText": "Rozlišení:",
+    "ratioLabelText": "Zachovat poměr stran:",
     "convertButtonText": "Převést"
   },
   "menuBar": {
@@ -37,10 +35,9 @@
     "formatLabelText": "Formát:",
     "formatButtonSetText": "Nastavit",
     "formatButtonResetText": "Reset",
-    "widthLabelText": "Šířka:",
-    "heightLabelText": "Výška:",
-    "sizeButtonSetText": "Nastavit",
-    "sizeButtonResetText": "Reset",
+    "resolutionLabelText": "Rozlišení:",
+    "resolutionButtonSetText": "Nastavit",
+    "resolutionButtonResetText": "Reset",
     "saveButtonText": "Uložit",
     "closeButtonText": "Zavřít"
   },
