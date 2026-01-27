@@ -5,6 +5,8 @@ from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QGroupBox, QHBoxL
 
 from src.Helpers.error_handler import ErrorHandler
 from src.Helpers.language_provider import LanguageProvider
+from src.Helpers.settings_provider import SettingsProvider
+from src.Helpers.string_helper import validate_path
 from src.UI.UI_widgets.list_view import ListView
 from src.UI.UI_widgets.menu_bar import MenuBar
 
@@ -17,6 +19,7 @@ class MainWindow(QMainWindow):
         self.setMenuBar(menu_bar)
         self.setCentralWidget(self.create_gui())
         self.set_ui_text()
+        self.set_settings_data()
 
     def create_gui(self) -> QWidget:
         central_widget = QWidget()
@@ -125,6 +128,23 @@ class MainWindow(QMainWindow):
                         widget.setTitle(ui_texts.get(text_key, default_text))
                     elif isinstance(widget, QLineEdit):
                         widget.setPlaceholderText(ui_texts.get(text_key, default_text))
+        except Exception as e:
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
+
+    def set_settings_data(self) -> None:
+        try:
+            settings_data = SettingsProvider.get_settings_data()
+            default_data = settings_data.get("default", {})
+            user_data = settings_data.get("user", {})
+            self.image_path_edit.setText(validate_path(user_data.get("input_path", "")))
+            self.image_path_edit.setToolTip(user_data.get("input_path", ""))
+            self.output_path_edit.setText(validate_path(user_data.get("output_path", "")))
+            self.output_path_edit.setToolTip(user_data.get("output_path", ""))
+            self.format_combobox.addItems(default_data.get("format_list", []))
+            self.format_combobox.setCurrentText(user_data.get("format_value", "JPEG"))
+            self.resolution_combobox.addItems(default_data.get("resolution_list", []))
+            self.resolution_combobox.setCurrentText(user_data.get("resolution_value", "1920x1080"))
+            self.ratio_checkbox.setChecked(user_data.get("ratio_checkbox", True))
         except Exception as e:
             ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
 

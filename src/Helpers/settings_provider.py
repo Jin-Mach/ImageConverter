@@ -17,9 +17,11 @@ class SettingsProvider:
         "output_path": str(DEFAULT_PATH),
         "format_list": ["BMP", "GIF", "JPEG", "PNG", "TIFF", "WebP"],
         "format_value": "JPEG",
-        "resolution_list": [[320, 240], [640, 480], [800, 600], [1024, 768], [1280, 720], [1366, 768], [1600, 900],
-                            [1920, 1080], [2560, 1440], [3840, 2160]],
-        "resolution_value": [1920, 1080],
+        "resolution_list": [
+            "320x240", "640x480", "800x600", "1024x768", "1280x720", "1366x768",
+            "1600x900", "1920x1080", "2560x1440", "3840x2160"
+        ],
+        "resolution_value": "1920x1080",
         "ratio": True,
     }
 
@@ -27,7 +29,7 @@ class SettingsProvider:
         "input_path": str(DEFAULT_PATH),
         "output_path": str(DEFAULT_PATH),
         "format_value": "JPEG",
-        "resolution_value": [1920, 1080],
+        "resolution_value": "1920x1080",
     }
 
     @staticmethod
@@ -53,7 +55,7 @@ class SettingsProvider:
             return False
 
     @staticmethod
-    def get_settings_data() -> dict[str, dict[str, str | list[str] | list[list[int]] | list[int]]]:
+    def get_settings_data() -> dict[str, dict[str, str | list[str]]]:
         settings_data = {
             "default": SettingsProvider.DEFAULT_SETTINGS.copy(),
             "user": {}
