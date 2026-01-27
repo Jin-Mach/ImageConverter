@@ -7,12 +7,14 @@ from src.Helpers.error_handler import ErrorHandler
 class SettingsProvider:
 
     DEFAULT_PATH = pathlib.Path.home()
-    USER_SETTINGS_PATH = pathlib.Path(__file__).parents[2].joinpath("config")
+    CONFIG_DIR = pathlib.Path(__file__).parents[2].joinpath("config")
+    CONFIG_DIR.mkdir(parents=True, exist_ok=True)
+    USER_SETTINGS_PATH = CONFIG_DIR.joinpath("settings.json")
     KEYS_LIST = ["input_path", "output_path", "format_value", "resolution_value"]
 
     DEFAULT_SETTINGS = {
-        "input_path": DEFAULT_PATH,
-        "output_path": DEFAULT_PATH,
+        "input_path": str(DEFAULT_PATH),
+        "output_path": str(DEFAULT_PATH),
         "format_list": ["BMP", "GIF", "JPEG", "PNG", "TIFF", "WebP"],
         "format_value": "JPEG",
         "resolution_list": [[320, 240], [640, 480], [800, 600], [1024, 768], [1280, 720], [1366, 768], [1600, 900],
@@ -22,8 +24,8 @@ class SettingsProvider:
     }
 
     USER_SETTINGS = {
-        "input_path": DEFAULT_PATH,
-        "output_path": DEFAULT_PATH,
+        "input_path": str(DEFAULT_PATH),
+        "output_path": str(DEFAULT_PATH),
         "format_value": "JPEG",
         "resolution_value": [1920, 1080],
     }
@@ -31,13 +33,11 @@ class SettingsProvider:
     @staticmethod
     def initialize_settings() -> bool:
         try:
-            SettingsProvider.USER_SETTINGS_PATH.mkdir(parents=True, exist_ok=True)
-            user_settings_file = SettingsProvider.USER_SETTINGS_PATH.joinpath("settings.json")
-            if not user_settings_file.exists() or user_settings_file.stat().st_size == 0:
-                with open(user_settings_file, "w", encoding="utf-8") as file:
+            if not SettingsProvider.USER_SETTINGS_PATH.exists() or SettingsProvider.USER_SETTINGS_PATH.stat().st_size == 0:
+                with open(SettingsProvider.USER_SETTINGS_PATH, "w", encoding="utf-8") as file:
                     json.dump(SettingsProvider.USER_SETTINGS, file, indent=4, sort_keys=True)
             else:
-                with open(user_settings_file, "r+", encoding="utf-8") as file:
+                with open(SettingsProvider.USER_SETTINGS_PATH, "r+", encoding="utf-8") as file:
                     json_settings = json.load(file)
                     for key in SettingsProvider.KEYS_LIST:
                         json_settings.setdefault(key, "")
@@ -51,3 +51,20 @@ class SettingsProvider:
         except Exception as e:
             ErrorHandler.write_log_exception(SettingsProvider.__name__, e)
             return False
+
+    @staticmethod
+    def get_settings_data() -> dict[str, dict[str, str | list[str] | list[list[int]] | list[int]]]:
+        settings_data = {
+            "default": SettingsProvider.DEFAULT_SETTINGS.copy(),
+            "user": {}
+        }
+        try:
+            with open(SettingsProvider.USER_SETTINGS_PATH, "r", encoding="utf-8") as file:
+                json_settings = json.load(file)
+                if not json_settings:
+                    json_settings = SettingsProvider.USER_SETTINGS.copy()
+                settings_data["user"] = json_settings
+        except Exception as e:
+            ErrorHandler.write_log_exception(SettingsProvider.__name__, e)
+            settings_data["user"] = SettingsProvider.USER_SETTINGS.copy()
+        return settings_data
