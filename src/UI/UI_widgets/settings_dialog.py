@@ -15,6 +15,7 @@ class SettingsDialog(QDialog):
         self.setFixedSize(600, 400)
         self.parent = parent
         self.setLayout(self.create_gui())
+        self.ui_texts = LanguageProvider().get_ui_texts(self.objectName())
         self.set_ui_texts()
         self.set_settings_data()
 
@@ -69,6 +70,7 @@ class SettingsDialog(QDialog):
         button_box = QDialogButtonBox(QDialogButtonBox.StandardButton.Save | QDialogButtonBox.StandardButton.Close)
         save_button = button_box.button(QDialogButtonBox.StandardButton.Save)
         save_button.setObjectName("saveButton")
+        save_button.clicked.connect(self.save_settings)
         close_button = button_box.button(QDialogButtonBox.StandardButton.Close)
         close_button.setObjectName("closeButton")
         button_box.accepted.connect(self.accepted)
@@ -103,18 +105,17 @@ class SettingsDialog(QDialog):
     def set_ui_texts(self) -> None:
         try:
             default_text = "Unknown text"
-            ui_texts = LanguageProvider.get_ui_texts(self.objectName())
             widgets = self.findChildren(QWidget)
-            if not ui_texts or not widgets:
-                raise ValueError(f"Texts: {ui_texts} or {widgets} not found.")
-            self.setWindowTitle(ui_texts.get("titleText", default_text))
+            if not self.ui_texts or not widgets:
+                raise ValueError(f"Texts: {self.ui_texts} or {widgets} not found.")
+            self.setWindowTitle(self.ui_texts.get("titleText", default_text))
             for widget in widgets:
                 text_key = f"{widget.objectName()}Text"
-                if text_key in ui_texts.keys():
+                if text_key in self.ui_texts.keys():
                     if isinstance(widget, QGroupBox):
-                        widget.setTitle(ui_texts.get(text_key, default_text))
+                        widget.setTitle(self.ui_texts.get(text_key, default_text))
                     elif isinstance(widget, (QLabel, QPushButton)):
-                        widget.setText(ui_texts.get(text_key, default_text))
+                        widget.setText(self.ui_texts.get(text_key, default_text))
         except Exception as e:
             ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.parent)
 
@@ -142,9 +143,8 @@ class SettingsDialog(QDialog):
 
     def set_path(self, path: str, mode: str) -> None:
         try:
-            ui_texts = LanguageProvider.get_ui_texts(self.objectName())
             new_path = QFileDialog.getExistingDirectory(parent=self,
-                                                        caption=ui_texts.get("dialogTitleText", "Open directory"),
+                                                        caption=self.ui_texts.get("dialogTitleText", "Open directory"),
                                                         directory=path)
             if new_path:
                 if mode == "input":
@@ -177,5 +177,15 @@ class SettingsDialog(QDialog):
                 self.format_combo.setCurrentText(self.default_format_value)
             elif mode == "resolution":
                 self.resolution_combo.setCurrentText(self.default_resolution_value)
+        except Exception as e:
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.parent)
+
+    def save_settings(self) -> None:
+        try:
+            if not SettingsProvider.save_user_settings(self.input_path, self.output_path,
+                                                       self.format_combo.currentText(),
+                                                       self.resolution_combo.currentText()):
+                raise IOError("Save settings failed.")
+            self.accept()
         except Exception as e:
             ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.parent)

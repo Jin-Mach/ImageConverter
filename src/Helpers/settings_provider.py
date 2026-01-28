@@ -83,7 +83,6 @@ class SettingsProvider:
             settings_data["resolution_value"] = resolution_value
             with open(SettingsProvider.USER_SETTINGS_PATH, "w", encoding="utf-8") as new_file:
                 json.dump(settings_data, new_file, indent=4)
-            print(settings_data)
             return True
         except Exception as e:
             ErrorHandler.write_log_exception(SettingsProvider.__name__, e)
