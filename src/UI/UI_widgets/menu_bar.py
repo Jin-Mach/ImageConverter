@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QMenuBar, QMenu
 
@@ -6,12 +8,15 @@ from src.Helpers.language_provider import LanguageProvider
 from src.UI.UI_widgets.about_dialog import AboutDialog
 from src.UI.UI_widgets.settings_dialog import SettingsDialog
 
+if TYPE_CHECKING:
+    from src.UI.main_window import MainWindow
+
 
 class MenuBar(QMenuBar):
-    def __init__(self, parent=None) -> None:
-        super().__init__(parent)
+    def __init__(self, main_window: MainWindow) -> None:
+        super().__init__(main_window)
         self.setObjectName("menuBar")
-        self.parent = parent
+        self.main_window = main_window
         self.addMenu(self.create_ui())
         self.set_ui_texts()
 
@@ -44,18 +49,18 @@ class MenuBar(QMenuBar):
                     elif isinstance(widget, QAction):
                         widget.setText(ui_texts.get(text_key, default_text))
         except Exception as e:
-            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.parent)
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.main_window)
 
     def show_about_dialog(self) -> None:
         try:
             dialog = AboutDialog(self)
             dialog.exec()
         except Exception as e:
-            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.parent)
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.main_window)
 
     def show_settings_dialog(self) -> None:
         try:
-            dialog = SettingsDialog(self)
+            dialog = SettingsDialog(self.main_window)
             dialog.exec()
         except Exception as e:
-            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.parent)
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.main_window)

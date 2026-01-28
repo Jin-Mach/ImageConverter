@@ -148,6 +148,17 @@ class MainWindow(QMainWindow):
         except Exception as e:
             ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
 
+    def update_settings_data(self, input_path: str, output_path: str, format_value: str, resolution_value: str) -> None:
+        try:
+            self.image_path_edit.setText(validate_path(input_path))
+            self.image_path_edit.setToolTip(input_path)
+            self.output_path_edit.setText(validate_path(output_path))
+            self.output_path_edit.setToolTip(output_path)
+            self.format_combobox.setCurrentText(format_value)
+            self.resolution_combobox.setCurrentText(resolution_value)
+        except Exception as e:
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
+
     def showEvent(self, event: QEvent) -> None:
         screen = QApplication.primaryScreen()
         geometry = screen.availableGeometry()

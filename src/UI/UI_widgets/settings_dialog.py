@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from PyQt6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGroupBox, QLabel, QLineEdit, QComboBox, QPushButton, \
     QDialogButtonBox, QWidget, QFileDialog
 
@@ -6,14 +8,17 @@ from src.Helpers.language_provider import LanguageProvider
 from src.Helpers.settings_provider import SettingsProvider
 from src.Helpers.string_helper import validate_path
 
+if TYPE_CHECKING:
+    from src.UI.main_window import MainWindow
+
 
 # noinspection PyTypeChecker
 class SettingsDialog(QDialog):
-    def __init__(self, parent=None) -> None:
-        super().__init__(parent)
+    def __init__(self, main_window: "MainWindow") -> None:
+        super().__init__(main_window)
         self.setObjectName("settingsDialog")
         self.setFixedSize(600, 400)
-        self.parent = parent
+        self.main_window = main_window
         self.setLayout(self.create_gui())
         self.ui_texts = LanguageProvider().get_ui_texts(self.objectName())
         self.set_ui_texts()
@@ -117,7 +122,7 @@ class SettingsDialog(QDialog):
                     elif isinstance(widget, (QLabel, QPushButton)):
                         widget.setText(self.ui_texts.get(text_key, default_text))
         except Exception as e:
-            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.parent)
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
 
     def set_settings_data(self) -> None:
         try:
@@ -139,7 +144,7 @@ class SettingsDialog(QDialog):
             self.resolution_combo.addItems(default_data.get("resolution_list", []))
             self.resolution_combo.setCurrentText(user_data.get("resolution_value", "1920x1080"))
         except Exception as e:
-            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.parent)
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
 
     def set_path(self, path: str, mode: str) -> None:
         try:
@@ -156,7 +161,7 @@ class SettingsDialog(QDialog):
                     self.output_edit.setText(validate_path(self.output_path))
                     self.output_edit.setToolTip(self.output_path)
         except Exception as e:
-            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.parent)
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
 
     def reset_path(self, mode: str) -> None:
         try:
@@ -169,7 +174,7 @@ class SettingsDialog(QDialog):
                 self.output_edit.setText(validate_path(self.output_path))
                 self.output_edit.setToolTip(self.output_path)
         except Exception as e:
-            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.parent)
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
 
     def reset_option(self, mode: str) -> None:
         try:
@@ -178,7 +183,7 @@ class SettingsDialog(QDialog):
             elif mode == "resolution":
                 self.resolution_combo.setCurrentText(self.default_resolution_value)
         except Exception as e:
-            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.parent)
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
 
     def save_settings(self) -> None:
         try:
@@ -186,6 +191,8 @@ class SettingsDialog(QDialog):
                                                        self.format_combo.currentText(),
                                                        self.resolution_combo.currentText()):
                 raise IOError("Save settings failed.")
+            self.main_window.update_settings_data(self.input_path, self.output_path, self.format_combo.currentText(),
+                                                  self.resolution_combo.currentText())
             self.accept()
         except Exception as e:
-            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.parent)
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
