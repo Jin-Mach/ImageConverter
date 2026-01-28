@@ -120,7 +120,7 @@ class SettingsDialog(QDialog):
 
     def set_settings_data(self) -> None:
         try:
-            settings_data = SettingsProvider.get_settings_data()
+            settings_data = SettingsProvider.load_settings_data()
             default_data = settings_data.get("default", {})
             user_data = settings_data.get("user", {})
             self.input_edit.setText(validate_path(user_data.get("input_path", "")))

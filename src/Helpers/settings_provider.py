@@ -37,7 +37,7 @@ class SettingsProvider:
         try:
             if not SettingsProvider.USER_SETTINGS_PATH.exists() or SettingsProvider.USER_SETTINGS_PATH.stat().st_size == 0:
                 with open(SettingsProvider.USER_SETTINGS_PATH, "w", encoding="utf-8") as file:
-                    json.dump(SettingsProvider.USER_SETTINGS, file, indent=4, sort_keys=True)
+                    json.dump(SettingsProvider.USER_SETTINGS, file, indent=4)
             else:
                 with open(SettingsProvider.USER_SETTINGS_PATH, "r+", encoding="utf-8") as file:
                     json_settings = json.load(file)
@@ -47,7 +47,7 @@ class SettingsProvider:
                         if value == "" or value == []:
                             json_settings[key] = SettingsProvider.DEFAULT_SETTINGS[key]
                     file.seek(0)
-                    json.dump(json_settings, file, indent=4, sort_keys=True)
+                    json.dump(json_settings, file, indent=4)
                     file.truncate()
             return True
         except Exception as e:
@@ -55,7 +55,7 @@ class SettingsProvider:
             return False
 
     @staticmethod
-    def get_settings_data() -> dict[str, dict[str, str | list[str]]]:
+    def load_settings_data() -> dict[str, dict[str, str | list[str]]]:
         settings_data = {
             "default": SettingsProvider.DEFAULT_SETTINGS.copy(),
             "user": {}
@@ -70,3 +70,21 @@ class SettingsProvider:
             ErrorHandler.write_log_exception(SettingsProvider.__name__, e)
             settings_data["user"] = SettingsProvider.USER_SETTINGS.copy()
         return settings_data
+
+    @staticmethod
+    def save_user_settings(input_path: str, output_path: str, format_value: str, resolution_value: str) -> bool:
+        try:
+            settings_data = SettingsProvider.load_settings_data().get("user", {})
+            if not settings_data:
+                raise IOError("Settings.json file loading error")
+            settings_data["input_path"] = input_path
+            settings_data["output_path"] = output_path
+            settings_data["format_value"] = format_value
+            settings_data["resolution_value"] = resolution_value
+            with open(SettingsProvider.USER_SETTINGS_PATH, "w", encoding="utf-8") as new_file:
+                json.dump(settings_data, new_file, indent=4)
+            print(settings_data)
+            return True
+        except Exception as e:
+            ErrorHandler.write_log_exception(SettingsProvider.__name__, e)
+            return False
