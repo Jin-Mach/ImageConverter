@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGroupBox, QLabel, QLineEdit, QComboBox, QPushButton, \
-    QDialogButtonBox, QWidget
+    QDialogButtonBox, QWidget, QFileDialog
 
 from src.Helpers.error_handler import ErrorHandler
 from src.Helpers.language_provider import LanguageProvider
@@ -30,8 +30,10 @@ class SettingsDialog(QDialog):
         self.input_edit.setReadOnly(True)
         input_button_set = QPushButton()
         input_button_set.setObjectName("inputButtonSet")
+        input_button_set.clicked.connect(lambda: self.set_path(path=self.input_path, mode="input"))
         input_button_reset = QPushButton()
         input_button_reset.setObjectName("inputButtonReset")
+        input_button_reset.clicked.connect(lambda: self.reset_path(mode="input"))
         input_row = QHBoxLayout()
         output_label = QLabel()
         output_label.setObjectName("outputLabel")
@@ -40,8 +42,10 @@ class SettingsDialog(QDialog):
         self.output_edit.setReadOnly(True)
         output_button_set = QPushButton()
         output_button_set.setObjectName("outputButtonSet")
+        output_button_set.clicked.connect(lambda: self.set_path(path=self.output_path, mode="output"))
         output_button_reset = QPushButton()
         output_button_reset.setObjectName("outputButtonReset")
+        output_button_reset.clicked.connect(lambda: self.reset_path(mode="output"))
         output_row = QHBoxLayout()
         options_group = QGroupBox()
         options_group.setObjectName("optionsGroup")
@@ -51,19 +55,17 @@ class SettingsDialog(QDialog):
         format_label.setObjectName("formatLabel")
         self.format_combo = QComboBox()
         self.format_combo.setObjectName("formatCombo")
-        format_button_set = QPushButton()
-        format_button_set.setObjectName("formatButtonSet")
         format_button_reset = QPushButton()
         format_button_reset.setObjectName("formatButtonReset")
+        format_button_reset.clicked.connect(lambda: self.reset_option("format"))
         resolution_layout = QHBoxLayout()
         resolution_label = QLabel()
         resolution_label.setObjectName("resolutionLabel")
         self.resolution_combo = QComboBox()
         self.resolution_combo.setObjectName("resolutionCombo")
-        resolution_button_set = QPushButton()
-        resolution_button_set.setObjectName("resolutionButtonSet")
         resolution_button_reset = QPushButton()
         resolution_button_reset.setObjectName("resolutionButtonReset")
+        resolution_button_reset.clicked.connect(lambda: self.reset_option("resolution"))
         button_box = QDialogButtonBox(QDialogButtonBox.StandardButton.Save | QDialogButtonBox.StandardButton.Close)
         save_button = button_box.button(QDialogButtonBox.StandardButton.Save)
         save_button.setObjectName("saveButton")
@@ -85,12 +87,10 @@ class SettingsDialog(QDialog):
         format_layout.addWidget(format_label)
         format_layout.addWidget(self.format_combo)
         format_layout.addStretch()
-        format_layout.addWidget(format_button_set)
         format_layout.addWidget(format_button_reset)
         resolution_layout.addWidget(resolution_label)
         resolution_layout.addWidget(self.resolution_combo)
         resolution_layout.addStretch()
-        resolution_layout.addWidget(resolution_button_set)
         resolution_layout.addWidget(resolution_button_reset)
         options_layout.addLayout(format_layout)
         options_layout.addLayout(resolution_layout)
@@ -123,13 +123,59 @@ class SettingsDialog(QDialog):
             settings_data = SettingsProvider.load_settings_data()
             default_data = settings_data.get("default", {})
             user_data = settings_data.get("user", {})
-            self.input_edit.setText(validate_path(user_data.get("input_path", "")))
-            self.input_edit.setToolTip(user_data.get("input_path", ""))
-            self.output_edit.setText(validate_path(user_data.get("output_path", "")))
-            self.output_edit.setToolTip(user_data.get("output_path", ""))
+            self.default_input_path = default_data.get("input_path", "")
+            self.default_output_path = default_data.get("output_path", "")
+            self.default_format_value = default_data.get("format_value", "")
+            self.default_resolution_value = default_data.get("resolution_value", "")
+            self.input_path = user_data.get("input_path", "")
+            self.output_path = user_data.get("output_path", "")
+            self.input_edit.setText(validate_path(self.input_path))
+            self.input_edit.setToolTip(self.input_path)
+            self.output_edit.setText(validate_path(self.output_path))
+            self.output_edit.setToolTip(self.output_path)
             self.format_combo.addItems(default_data.get("format_list", []))
             self.format_combo.setCurrentText(user_data.get("format_value", "JPEG"))
             self.resolution_combo.addItems(default_data.get("resolution_list", []))
             self.resolution_combo.setCurrentText(user_data.get("resolution_value", "1920x1080"))
+        except Exception as e:
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.parent)
+
+    def set_path(self, path: str, mode: str) -> None:
+        try:
+            ui_texts = LanguageProvider.get_ui_texts(self.objectName())
+            new_path = QFileDialog.getExistingDirectory(parent=self,
+                                                        caption=ui_texts.get("dialogTitleText", "Open directory"),
+                                                        directory=path)
+            if new_path:
+                if mode == "input":
+                    self.input_path = new_path
+                    self.input_edit.setText(validate_path(self.input_path))
+                    self.input_edit.setToolTip(self.input_path)
+                elif mode == "output":
+                    self.output_path = new_path
+                    self.output_edit.setText(validate_path(self.output_path))
+                    self.output_edit.setToolTip(self.output_path)
+        except Exception as e:
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.parent)
+
+    def reset_path(self, mode: str) -> None:
+        try:
+            if mode == "input":
+                self.input_path = self.default_input_path
+                self.input_edit.setText(validate_path(self.input_path))
+                self.input_edit.setToolTip(self.input_path)
+            elif mode == "output":
+                self.output_path = self.default_output_path
+                self.output_edit.setText(validate_path(self.output_path))
+                self.output_edit.setToolTip(self.output_path)
+        except Exception as e:
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.parent)
+
+    def reset_option(self, mode: str) -> None:
+        try:
+            if mode == "format":
+                self.format_combo.setCurrentText(self.default_format_value)
+            elif mode == "resolution":
+                self.resolution_combo.setCurrentText(self.default_resolution_value)
         except Exception as e:
             ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.parent)

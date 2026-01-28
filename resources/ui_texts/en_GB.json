@@ -33,13 +33,12 @@
     "outputButtonResetText": "Reset",
     "optionsGroupText": "Options",
     "formatLabelText": "Format:",
-    "formatButtonSetText": "Set",
     "formatButtonResetText": "Reset",
     "resolutionLabelText": "Resolution:",
-    "resolutionButtonSetText": "Set",
     "resolutionButtonResetText": "Reset",
     "saveButtonText": "Save",
-    "closeButtonText": "Close"
+    "closeButtonText": "Close",
+    "dialogTitleText": "Select folder"
   },
   "aboutDialog": {
     "titleText": "About the application",

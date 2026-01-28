@@ -33,13 +33,12 @@
     "outputButtonResetText": "Reset",
     "optionsGroupText": "Možnosti",
     "formatLabelText": "Formát:",
-    "formatButtonSetText": "Nastavit",
     "formatButtonResetText": "Reset",
     "resolutionLabelText": "Rozlišení:",
-    "resolutionButtonSetText": "Nastavit",
     "resolutionButtonResetText": "Reset",
     "saveButtonText": "Uložit",
-    "closeButtonText": "Zavřít"
+    "closeButtonText": "Zavřít",
+    "dialogTitleText": "Vybrat složku"
   },
   "aboutDialog": {
     "titleText": "O aplikaci",
