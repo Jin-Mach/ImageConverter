@@ -15,7 +15,9 @@
     "sizeGroupText": "Size",
     "resolutionLabelText": "Resolution:",
     "ratioLabelText": "Keep aspect ratio:",
-    "convertButtonText": "Convert"
+    "convertButtonText": "Convert",
+    "imageTitleText": "Select Images",
+    "outputTitleText": "Select Folder for Saving"
   },
   "menuBar": {
     "mainMenuText": "Menu",

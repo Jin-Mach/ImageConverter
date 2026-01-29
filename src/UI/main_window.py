@@ -1,7 +1,7 @@
 from PyQt6.QtCore import Qt, QEvent
 from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit, QPushButton, \
-    QComboBox, QCheckBox, QApplication
+    QComboBox, QCheckBox, QApplication, QFileDialog
 
 from src.Helpers.error_handler import ErrorHandler
 from src.Helpers.language_provider import LanguageProvider
@@ -17,6 +17,7 @@ class MainWindow(QMainWindow):
         self.setObjectName("mainWindow")
         menu_bar = MenuBar(self)
         self.setMenuBar(menu_bar)
+        self.set_basic_data()
         self.setCentralWidget(self.create_gui())
         self.set_ui_text()
         self.set_settings_data()
@@ -38,6 +39,7 @@ class MainWindow(QMainWindow):
         self.image_path_edit.setReadOnly(True)
         self.image_button = QPushButton()
         self.image_button.setObjectName("imageButton")
+        self.image_button.clicked.connect(self.set_images_path)
         self.list_view = ListView()
         self.output_group = QGroupBox()
         self.output_group.setObjectName("outputGroup")
@@ -49,6 +51,7 @@ class MainWindow(QMainWindow):
         self.output_path_edit.setReadOnly(True)
         self.output_path_button = QPushButton()
         self.output_path_button.setObjectName("outputButton")
+        self.output_path_button.clicked.connect(self.set_output_path)
         self.options_group = QGroupBox()
         self.options_group.setObjectName("optionsGroup")
         options_layout = QVBoxLayout()
@@ -111,40 +114,45 @@ class MainWindow(QMainWindow):
         central_widget.setLayout(main_layout)
         return central_widget
 
+    def set_basic_data(self) -> None:
+        try:
+            self.ui_texts = LanguageProvider.get_ui_texts(self.objectName())
+            self.settings_data = SettingsProvider.load_settings_data()
+            self.default_data = self.settings_data.get("default", {})
+            self.user_data = self.settings_data.get("user", {})
+        except Exception as e:
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
+
     def set_ui_text(self) -> None:
         try:
             default_text = "Unknown text"
-            ui_texts = LanguageProvider.get_ui_texts(self.objectName())
             widgets = self.findChildren(QWidget)
-            if not ui_texts or not widgets:
-                raise ValueError(f"Texts: {ui_texts} or {widgets} not found.")
-            self.setWindowTitle(ui_texts.get("titleText", ""))
+            if not self.ui_texts or not widgets:
+                raise ValueError(f"Texts: {self.ui_texts} or {widgets} not found.")
+            self.setWindowTitle(self.ui_texts.get("titleText", ""))
             for widget in widgets:
                 text_key = f"{widget.objectName()}Text"
-                if text_key in ui_texts.keys():
+                if text_key in self.ui_texts.keys():
                     if isinstance(widget, (QLabel, QPushButton)):
-                        widget.setText(ui_texts.get(text_key, default_text))
+                        widget.setText(self.ui_texts.get(text_key, default_text))
                     elif isinstance(widget, QGroupBox):
-                        widget.setTitle(ui_texts.get(text_key, default_text))
+                        widget.setTitle(self.ui_texts.get(text_key, default_text))
                     elif isinstance(widget, QLineEdit):
-                        widget.setPlaceholderText(ui_texts.get(text_key, default_text))
+                        widget.setPlaceholderText(self.ui_texts.get(text_key, default_text))
         except Exception as e:
             ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
 
     def set_settings_data(self) -> None:
         try:
-            settings_data = SettingsProvider.load_settings_data()
-            default_data = settings_data.get("default", {})
-            user_data = settings_data.get("user", {})
-            self.image_path_edit.setText(validate_path(user_data.get("input_path", "")))
-            self.image_path_edit.setToolTip(user_data.get("input_path", ""))
-            self.output_path_edit.setText(validate_path(user_data.get("output_path", "")))
-            self.output_path_edit.setToolTip(user_data.get("output_path", ""))
-            self.format_combobox.addItems(default_data.get("format_list", []))
-            self.format_combobox.setCurrentText(user_data.get("format_value", "JPEG"))
-            self.resolution_combobox.addItems(default_data.get("resolution_list", []))
-            self.resolution_combobox.setCurrentText(user_data.get("resolution_value", "1920x1080"))
-            self.ratio_checkbox.setChecked(user_data.get("ratio_checkbox", True))
+            self.image_path_edit.setText(validate_path(self.user_data.get("input_path", "")))
+            self.image_path_edit.setToolTip(self.user_data.get("input_path", ""))
+            self.output_path_edit.setText(validate_path(self.user_data.get("output_path", "")))
+            self.output_path_edit.setToolTip(self.user_data.get("output_path", ""))
+            self.format_combobox.addItems(self.default_data.get("format_list", []))
+            self.format_combobox.setCurrentText(self.user_data.get("format_value", "JPEG"))
+            self.resolution_combobox.addItems(self.default_data.get("resolution_list", []))
+            self.resolution_combobox.setCurrentText(self.user_data.get("resolution_value", "1920x1080"))
+            self.ratio_checkbox.setChecked(self.user_data.get("ratio_checkbox", True))
         except Exception as e:
             ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
 
@@ -156,6 +164,33 @@ class MainWindow(QMainWindow):
             self.output_path_edit.setToolTip(output_path)
             self.format_combobox.setCurrentText(format_value)
             self.resolution_combobox.setCurrentText(resolution_value)
+        except Exception as e:
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
+
+    def set_images_path(self) -> None:
+        try:
+            files = ""
+            if self.default_data:
+                for files_format in self.default_data.get("format_list", []):
+                    if files_format:
+                        files += f"*.{files_format.lower()} "
+            files_filter = f"{self.ui_texts.get('imageFilterText', 'Select images')} ({files.strip()})"
+            paths, _ = QFileDialog.getOpenFileNames(parent=self,
+                                                    caption=self.ui_texts.get("imagesTitleText", "Select images"),
+                                                    directory=self.user_data.get("input_path", ""),
+                                                    filter=files_filter)
+            if paths:
+                print(f"paths:{paths}")
+        except Exception as e:
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
+
+    def set_output_path(self) -> None:
+        try:
+            path = QFileDialog.getExistingDirectory(parent=self,
+                                                    caption=self.ui_texts.get("outputTitleText", "Select path"),
+                                                    directory=self.user_data.get("output_path", ""))
+            if path:
+                print(f"path:{path}")
         except Exception as e:
             ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
 

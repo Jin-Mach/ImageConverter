@@ -15,7 +15,9 @@
     "sizeGroupText": "Velikost",
     "resolutionLabelText": "Rozlišení:",
     "ratioLabelText": "Zachovat poměr stran:",
-    "convertButtonText": "Převést"
+    "convertButtonText": "Převést",
+    "imageTitleText": "Vybrat obrázky",
+    "outputTitleText": "Vybrat složku pro uložení"
   },
   "menuBar": {
     "mainMenuText": "Menu",
