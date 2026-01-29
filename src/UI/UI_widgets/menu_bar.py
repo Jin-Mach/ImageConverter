@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 
 class MenuBar(QMenuBar):
-    def __init__(self, main_window: MainWindow) -> None:
+    def __init__(self, main_window: "MainWindow") -> None:
         super().__init__(main_window)
         self.setObjectName("menuBar")
         self.main_window = main_window
