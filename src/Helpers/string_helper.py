@@ -1,18 +1,19 @@
 import os
-import pathlib
+from pathlib import Path
 
+def validate_path(path: str, limit: int = 40) -> str:
+    if not path:
+        return ""
 
-def validate_path(path: str) -> str:
-    validate_list = []
-    validated_path = ""
-    if path is None:
-        return validated_path
-    path = pathlib.Path(path)
-    for item in reversed(path.parts):
-        validate_list.append(item)
-        text_path = os.sep.join(validate_list)
-        if len(text_path) > 20:
-            validate_list.reverse()
-            validated_path = os.sep.join(validate_list)
+    path = Path(path)
+    path_parts = list(path.parts)
+    final_parts = []
+    while path_parts:
+        part = path_parts.pop()
+        final_parts.insert(0, part)
+        current_path = os.sep.join(final_parts)
+        if len(current_path) > limit:
+            final_parts.pop(0)
             break
-    return f"...{validated_path}"
+    validated_path = os.sep.join(final_parts)
+    return "..." + validated_path

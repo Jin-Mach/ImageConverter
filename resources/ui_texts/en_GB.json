@@ -1,7 +1,6 @@
 {
   "mainWindow": {
     "titleText": "Image Converter",
-    "titleLabelText": "Image Conversion Tool",
     "imagesGroupText": "Images",
     "imagePathLabelText": "Select images:",
     "imageButtonText": "Select",

@@ -1,7 +1,6 @@
 {
   "mainWindow": {
     "titleText": "Převodník obrázků",
-    "titleLabelText": "Nástroj pro převod obrázků",
     "imagesGroupText": "Obrázky",
     "imagePathLabelText": "Vybrat obrázky:",
     "imageButtonText": "Vybrat",

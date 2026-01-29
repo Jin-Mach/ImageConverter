@@ -1,13 +1,12 @@
-from PyQt6.QtCore import Qt, QEvent
-from PyQt6.QtGui import QFont
+from PyQt6.QtCore import QEvent
 from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit, QPushButton, \
-    QComboBox, QCheckBox, QApplication, QFileDialog
+    QComboBox, QCheckBox, QApplication, QFileDialog, QSizePolicy
 
 from src.Helpers.error_handler import ErrorHandler
 from src.Helpers.language_provider import LanguageProvider
 from src.Helpers.settings_provider import SettingsProvider
 from src.Helpers.string_helper import validate_path
-from src.UI.UI_widgets.list_view import ListView
+from src.UI.UI_widgets.list_widget import ListWidget
 from src.UI.UI_widgets.menu_bar import MenuBar
 
 
@@ -25,10 +24,6 @@ class MainWindow(QMainWindow):
     def create_gui(self) -> QWidget:
         central_widget = QWidget()
         main_layout = QVBoxLayout()
-        self.title_label = QLabel()
-        self.title_label.setObjectName("titleLabel")
-        self.title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.title_label.setFont(QFont("Arial", 20))
         self.images_group = QGroupBox()
         self.images_group.setObjectName("imagesGroup")
         images_layout = QHBoxLayout()
@@ -40,7 +35,8 @@ class MainWindow(QMainWindow):
         self.image_button = QPushButton()
         self.image_button.setObjectName("imageButton")
         self.image_button.clicked.connect(self.set_images_path)
-        self.list_view = ListView()
+        self.list_widget = ListWidget(self)
+        self.list_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         self.output_group = QGroupBox()
         self.output_group.setObjectName("outputGroup")
         output_layout = QHBoxLayout()
@@ -54,7 +50,7 @@ class MainWindow(QMainWindow):
         self.output_path_button.clicked.connect(self.set_output_path)
         self.options_group = QGroupBox()
         self.options_group.setObjectName("optionsGroup")
-        options_layout = QVBoxLayout()
+        options_layout = QHBoxLayout()
         self.format_group = QGroupBox()
         self.format_group.setObjectName("formatGroup")
         format_layout = QHBoxLayout()
@@ -105,9 +101,8 @@ class MainWindow(QMainWindow):
         self.images_group.setLayout(images_layout)
         self.output_group.setLayout(output_layout)
         self.options_group.setLayout(options_layout)
-        main_layout.addWidget(self.title_label)
         main_layout.addWidget(self.images_group)
-        main_layout.addWidget(self.list_view)
+        main_layout.addWidget(self.list_widget)
         main_layout.addWidget(self.output_group)
         main_layout.addWidget(self.options_group)
         main_layout.addLayout(convert_layout)
@@ -181,7 +176,7 @@ class MainWindow(QMainWindow):
                                                     directory=self.user_data.get("input_path", ""),
                                                     filter=files_filter)
             if paths:
-                print(f"paths:{paths}")
+                self.list_widget.set_items(paths)
         except Exception as e:
             ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
 
@@ -199,7 +194,7 @@ class MainWindow(QMainWindow):
     def showEvent(self, event: QEvent) -> None:
         screen = QApplication.primaryScreen()
         geometry = screen.availableGeometry()
-        width = self.width() + 50
+        self.setMinimumSize(800, 700)
+        width = self.width()
         height = self.height()
-        self.setFixedSize(width, height)
         self.move((geometry.width() - width) // 2, (geometry.height() - height) // 2)
