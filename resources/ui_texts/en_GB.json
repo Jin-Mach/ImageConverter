@@ -3,7 +3,8 @@
     "titleText": "Image Converter",
     "imagesGroupText": "Images",
     "imagePathLabelText": "Select images:",
-    "imageButtonText": "Select",
+    "replaceImagesButtonText": "Select",
+    "addImagesButtonText": "Add",
     "outputGroupText": "Output",
     "outputPathLabelText": "Select output folder:",
     "outputPathEditText": "Select output path..",
@@ -22,6 +23,9 @@
     "mainMenuText": "Menu",
     "settingsActionText": "Settings",
     "aboutActionText": "About the application"
+  },
+  "listWidget": {
+    "pathButton": "Delete"
   },
   "settingsDialog": {
     "titleText": "Settings",

@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-def validate_path(path: str, limit: int = 40) -> str:
+def validate_path(path: str, limit: int = 50) -> str:
     if not path:
         return ""
 

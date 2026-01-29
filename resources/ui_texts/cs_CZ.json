@@ -3,7 +3,8 @@
     "titleText": "Převodník obrázků",
     "imagesGroupText": "Obrázky",
     "imagePathLabelText": "Vybrat obrázky:",
-    "imageButtonText": "Vybrat",
+    "replaceImagesButtonText": "Vybrat",
+    "addImagesButtonText": "Přidat",
     "outputGroupText": "Výstup",
     "outputPathLabelText": "Vyberte výstupní složku:",
     "outputPathEditText": "Vyberte výstupní cestu..",
@@ -22,6 +23,9 @@
     "mainMenuText": "Menu",
     "settingsActionText": "Nastavení",
     "aboutActionText": "O aplikaci"
+  },
+  "listWidget": {
+    "pathButtonText": "Smazat"
   },
   "settingsDialog": {
     "titleText": "Nastavení",

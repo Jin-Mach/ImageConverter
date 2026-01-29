@@ -32,9 +32,12 @@ class MainWindow(QMainWindow):
         self.image_path_edit = QLineEdit()
         self.image_path_edit.setObjectName("imagePathEdit")
         self.image_path_edit.setReadOnly(True)
-        self.image_button = QPushButton()
-        self.image_button.setObjectName("imageButton")
-        self.image_button.clicked.connect(self.set_images_path)
+        self.replace_images_button = QPushButton()
+        self.replace_images_button.setObjectName("replaceImagesButton")
+        self.replace_images_button.clicked.connect(lambda: self.set_images_path(clear=True))
+        self.add_images_button = QPushButton()
+        self.add_images_button.setObjectName("addImagesButton")
+        self.add_images_button.clicked.connect(lambda: self.set_images_path(clear=False))
         self.list_widget = ListWidget(self)
         self.list_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         self.output_group = QGroupBox()
@@ -76,7 +79,8 @@ class MainWindow(QMainWindow):
         self.convert_button.setObjectName("convertButton")
         images_layout.addWidget(self.image_path_text)
         images_layout.addWidget(self.image_path_edit)
-        images_layout.addWidget(self.image_button)
+        images_layout.addWidget(self.replace_images_button)
+        images_layout.addWidget(self.add_images_button)
         output_layout.addWidget(self.output_path_label)
         output_layout.addWidget(self.output_path_edit)
         output_layout.addWidget(self.output_path_button)
@@ -163,7 +167,7 @@ class MainWindow(QMainWindow):
         except Exception as e:
             ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
 
-    def set_images_path(self) -> None:
+    def set_images_path(self, clear: bool) -> None:
         try:
             files = ""
             if self.default_data:
@@ -176,7 +180,7 @@ class MainWindow(QMainWindow):
                                                     directory=self.user_data.get("input_path", ""),
                                                     filter=files_filter)
             if paths:
-                self.list_widget.set_items(paths)
+                self.list_widget.set_items(paths, clear)
         except Exception as e:
             ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
 
