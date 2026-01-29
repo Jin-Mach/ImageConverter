@@ -120,6 +120,7 @@ class MainWindow(QMainWindow):
             self.settings_data = SettingsProvider.load_settings_data()
             self.default_data = self.settings_data.get("default", {})
             self.user_data = self.settings_data.get("user", {})
+            self.usage_path = self.user_data.get("output_path", "")
         except Exception as e:
             ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
 
@@ -188,9 +189,10 @@ class MainWindow(QMainWindow):
         try:
             path = QFileDialog.getExistingDirectory(parent=self,
                                                     caption=self.ui_texts.get("outputTitleText", "Select path"),
-                                                    directory=self.user_data.get("output_path", ""))
+                                                    directory=self.usage_path)
             if path:
-                print(f"path:{path}")
+                self.usage_path = path
+                self.output_path_edit.setText(validate_path(path))
         except Exception as e:
             ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
 
