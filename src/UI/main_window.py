@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QGroupBox, QHBoxL
 
 from src.Helpers.error_handler import ErrorHandler
 from src.Helpers.language_provider import LanguageProvider
+from src.Helpers.pillow_provider import PillowProvider
 from src.Helpers.settings_provider import SettingsProvider
 from src.Helpers.string_helper import validate_path
 from src.UI.UI_widgets.list_widget import ListWidget
@@ -200,7 +201,11 @@ class MainWindow(QMainWindow):
         try:
             paths_list = self.list_widget.get_all_paths()
             if paths_list:
-                print(paths_list)
+                for path in paths_list:
+                    PillowProvider.convert_image(path=path, output_path=self.usage_path,
+                                                 img_format=self.format_combobox.currentText(),
+                                                 img_resolution=self.resolution_combobox.currentText(),
+                                                 ratio=self.ratio_checkbox.isChecked())
             else:
                 QMessageBox.information(self, self.ui_texts.get("titleText", ""),
                                         self.ui_texts.get("noPathsText", "No images selected for conversion"))
