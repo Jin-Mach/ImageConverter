@@ -17,7 +17,8 @@
     "ratioLabelText": "Zachovat poměr stran:",
     "convertButtonText": "Převést",
     "imageTitleText": "Vybrat obrázky",
-    "outputTitleText": "Vybrat složku pro uložení"
+    "outputTitleText": "Vybrat složku pro uložení",
+    "noPathsText": "Není vybrána složka přo převod."
   },
   "menuBar": {
     "mainMenuText": "Menu",

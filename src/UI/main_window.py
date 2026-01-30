@@ -1,6 +1,6 @@
 from PyQt6.QtCore import QEvent
 from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit, QPushButton, \
-    QComboBox, QCheckBox, QApplication, QFileDialog, QSizePolicy
+    QComboBox, QCheckBox, QApplication, QFileDialog, QSizePolicy, QMessageBox
 
 from src.Helpers.error_handler import ErrorHandler
 from src.Helpers.language_provider import LanguageProvider
@@ -77,6 +77,7 @@ class MainWindow(QMainWindow):
         convert_layout = QHBoxLayout()
         self.convert_button = QPushButton()
         self.convert_button.setObjectName("convertButton")
+        self.convert_button.clicked.connect(self.start_convert)
         images_layout.addWidget(self.image_path_text)
         images_layout.addWidget(self.image_path_edit)
         images_layout.addWidget(self.replace_images_button)
@@ -195,10 +196,21 @@ class MainWindow(QMainWindow):
         except Exception as e:
             ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
 
+    def start_convert(self) -> None:
+        try:
+            paths_list = self.list_widget.get_all_paths()
+            if paths_list:
+                print(paths_list)
+            else:
+                QMessageBox.information(self, self.ui_texts.get("titleText", ""),
+                                        self.ui_texts.get("noPathsText", "No images selected for conversion"))
+        except Exception as e:
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
+
     def showEvent(self, event: QEvent) -> None:
         screen = QApplication.primaryScreen()
         geometry = screen.availableGeometry()
-        self.setMinimumSize(800, 700)
+        self.setMinimumSize(600, 700)
         width = self.width()
         height = self.height()
         self.move((geometry.width() - width) // 2, (geometry.height() - height) // 2)

@@ -46,3 +46,14 @@ class ListWidget(QListWidget):
         row = self.row(item)
         if row >= 0:
             self.takeItem(row)
+
+    def get_all_paths(self) -> list[str]:
+        paths_list = []
+        try:
+            for i in range(self.count()):
+                item = self.item(i)
+                ful_path = item.data(Qt.ItemDataRole.UserRole)
+                paths_list.append(ful_path)
+        except Exception as e:
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.main_window)
+        return paths_list

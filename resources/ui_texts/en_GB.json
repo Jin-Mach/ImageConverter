@@ -17,7 +17,8 @@
     "ratioLabelText": "Keep aspect ratio:",
     "convertButtonText": "Convert",
     "imageTitleText": "Select Images",
-    "outputTitleText": "Select Folder for Saving"
+    "outputTitleText": "Select Folder for Saving",
+    "noPathsText": "No folder selected for conversion."
   },
   "menuBar": {
     "mainMenuText": "Menu",
