@@ -18,6 +18,7 @@ setup(
     install_requires=[
         "PyQt6>=6.10",
         "pywin32; sys_platform=='win32'",
+        "pillow>=12.1.0",
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
