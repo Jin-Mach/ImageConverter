@@ -18,10 +18,13 @@ class PillowProvider:
             image_height = int(img_resolution.split("x")[1])
             file_name = pathlib.Path(path).stem
             final_output = f"{pathlib.Path(output_path).joinpath(file_name)}.{img_format.lower()}"
+            pathlib.Path(final_output).parent.mkdir(parents=True, exist_ok=True)
             if ratio:
                 image.thumbnail(size=(image_width, image_height), resample=Resampling.LANCZOS)
             else:
                 image = image.resize(size=(image_width, image_height), resample=Resampling.LANCZOS)
+            if img_format.upper() == "JPEG" and image.mode in ("RGBA", "LA"):
+                image = image.convert("RGB")
             image.save(final_output, format=img_format)
             return True
         except Exception as e:

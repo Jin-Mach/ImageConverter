@@ -4,11 +4,12 @@ from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QGroupBox, QHBoxL
 
 from src.Helpers.error_handler import ErrorHandler
 from src.Helpers.language_provider import LanguageProvider
-from src.Helpers.pillow_provider import PillowProvider
 from src.Helpers.settings_provider import SettingsProvider
 from src.Helpers.string_helper import validate_path
+from src.Helpers.threading_provider import ThreadingProvider
 from src.UI.UI_widgets.list_widget import ListWidget
 from src.UI.UI_widgets.menu_bar import MenuBar
+from src.UI.UI_widgets.progress_dialog import ProgressDialog
 
 
 class MainWindow(QMainWindow):
@@ -121,7 +122,7 @@ class MainWindow(QMainWindow):
             self.settings_data = SettingsProvider.load_settings_data()
             self.default_data = self.settings_data.get("default", {})
             self.user_data = self.settings_data.get("user", {})
-            self.usage_path = self.user_data.get("output_path", "")
+            self.full_output_path = self.user_data.get("output_path", "")
         except Exception as e:
             ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
 
@@ -177,12 +178,12 @@ class MainWindow(QMainWindow):
                     if files_format:
                         files += f"*.{files_format.lower()} "
             files_filter = f"{self.ui_texts.get('imageFilterText', 'Select images')} ({files.strip()})"
-            paths, _ = QFileDialog.getOpenFileNames(parent=self,
+            self.selected_paths, _ = QFileDialog.getOpenFileNames(parent=self,
                                                     caption=self.ui_texts.get("imagesTitleText", "Select images"),
                                                     directory=self.user_data.get("input_path", ""),
                                                     filter=files_filter)
-            if paths:
-                self.list_widget.set_items(paths, clear)
+            if self.selected_paths:
+                self.list_widget.set_items(self.selected_paths, clear)
         except Exception as e:
             ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
 
@@ -190,9 +191,9 @@ class MainWindow(QMainWindow):
         try:
             path = QFileDialog.getExistingDirectory(parent=self,
                                                     caption=self.ui_texts.get("outputTitleText", "Select path"),
-                                                    directory=self.usage_path)
+                                                    directory=self.full_output_path)
             if path:
-                self.usage_path = path
+                self.full_output_path = path
                 self.output_path_edit.setText(validate_path(path))
         except Exception as e:
             ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
@@ -201,11 +202,16 @@ class MainWindow(QMainWindow):
         try:
             paths_list = self.list_widget.get_all_paths()
             if paths_list:
-                for path in paths_list:
-                    PillowProvider.convert_image(path=path, output_path=self.usage_path,
-                                                 img_format=self.format_combobox.currentText(),
-                                                 img_resolution=self.resolution_combobox.currentText(),
-                                                 ratio=self.ratio_checkbox.isChecked())
+                progress_dialog = ProgressDialog(self)
+                progress_dialog.show()
+                self.threading_provider = ThreadingProvider(paths_list, self.full_output_path,
+                                                            self.format_combobox.currentText(),
+                                                            self.resolution_combobox.currentText(),
+                                                            self.ratio_checkbox.isChecked())
+                self.threading_provider.convert_object.convert_progress.connect(progress_dialog.update_progress)
+                self.threading_provider.convert_object.convert_failed_list.connect(progress_dialog.progress_completed)
+                self.threading_provider.start_conversion()
+                self.threading_provider.convert_thread.start()
             else:
                 QMessageBox.information(self, self.ui_texts.get("titleText", ""),
                                         self.ui_texts.get("noPathsText", "No images selected for conversion"))

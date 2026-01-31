@@ -1,4 +1,4 @@
-from PyQt6.QtCore import QObject, pyqtSignal
+from PyQt6.QtCore import QObject, pyqtSignal, QThread
 
 from src.Helpers.pillow_provider import PillowProvider
 from src.Helpers.error_handler import ErrorHandler
@@ -7,8 +7,8 @@ from src.Helpers.error_handler import ErrorHandler
 class ConvertObject(QObject):
     convert_success = pyqtSignal()
     convert_failed = pyqtSignal()
-    convert_progress = pyqtSignal(str)
-    convert_failed_list = pyqtSignal(list[str])
+    convert_progress = pyqtSignal(object)
+    convert_failed_list = pyqtSignal(object)
 
     def __init__(self, paths_list: list[str], output_path: str, img_format: str, img_resolution: str, ratio: bool) -> None:
         super().__init__()
@@ -25,12 +25,14 @@ class ConvertObject(QObject):
             progress = 1
             failed_list = []
             for path in self.paths_list:
-                self.convert_progress.emit(f"{progress} / {paths_count}")
+                self.convert_progress.emit([progress, paths_count])
+                QThread.msleep(200)
                 progress += 1
                 if not PillowProvider.convert_image(path, self.output_path, self.img_format, self.img_resolution,
                                                     self.ratio):
                     failed_list.append(path)
                     continue
+            QThread.msleep(200)
             self.convert_failed_list.emit(failed_list)
             self.convert_success.emit()
         except Exception as e:
