@@ -5,9 +5,11 @@
     "imagePathLabelText": "Vybrat obrázky:",
     "replaceImagesButtonText": "Vybrat",
     "addImagesButtonText": "Přidat",
+    "imagesCountLabelText": "Počet souborů:",
+    "clearListButtonText": "Vyčistit seznam",
     "outputGroupText": "Výstup",
-    "outputPathLabelText": "Vyberte výstupní složku:",
-    "outputPathEditText": "Vyberte výstupní cestu..",
+    "outputPathLabelText": "Výstupní složka:",
+    "outputPathEditText": "Vyberte cestu...",
     "outputButtonText": "Vybrat",
     "optionsGroupText": "Možnosti",
     "formatGroupText": "Formát",
@@ -16,9 +18,9 @@
     "resolutionLabelText": "Rozlišení:",
     "ratioLabelText": "Zachovat poměr stran:",
     "convertButtonText": "Převést",
-    "imageTitleText": "Vybrat obrázky",
-    "outputTitleText": "Vybrat složku pro uložení",
-    "noPathsText": "Není vybrána složka pro převod."
+    "imagesTitleText": "Vybrat obrázky",
+    "outputTitleText": "Vybrat složku",
+    "noPathsText": "Nebyly vybrány žádné soubory."
   },
   "menuBar": {
     "mainMenuText": "Menu",
@@ -31,8 +33,8 @@
   "settingsDialog": {
     "titleText": "Nastavení",
     "pathGroupText": "Cesty",
-    "inputLabelText": "Cesta vstupu:",
-    "outputLabelText": "Cesta k výstupu:",
+    "inputLabelText": "Vstupní složka:",
+    "outputLabelText": "Výstupní složka:",
     "inputButtonSetText": "Nastavit",
     "inputButtonResetText": "Reset",
     "outputButtonSetText": "Nastavit",
@@ -58,7 +60,7 @@
     "versionLabelDefaultText": "1.0.0",
     "githubLabelDefaultText": "<a href=\"https://github.com/Jin-Mach/ImageConverter\">GitHub repozitář</a>",
     "descriptionGroupText": "Popis",
-    "descriptionEditText": "Jednoduchý nástroj pro převod obrázků do různých formátů s možností úpravy velikosti.",
+    "descriptionEditText": "Jednoduchý nástroj pro převod obrázků do různých formátů s možností změny velikosti.",
     "closeButtonText": "Zavřít"
   },
   "errorDialog": {

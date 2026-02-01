@@ -3,12 +3,14 @@
     "titleText": "Image Converter",
     "imagesGroupText": "Images",
     "imagePathLabelText": "Select images:",
-    "replaceImagesButtonText": "Select",
+    "replaceImagesButtonText": "Choose",
     "addImagesButtonText": "Add",
+    "imagesCountLabelText": "Files count:",
+    "clearListButtonText": "Clear list",
     "outputGroupText": "Output",
-    "outputPathLabelText": "Select output folder:",
-    "outputPathEditText": "Select output path..",
-    "outputButtonText": "Select",
+    "outputPathLabelText": "Output folder:",
+    "outputPathEditText": "Select path...",
+    "outputButtonText": "Choose",
     "optionsGroupText": "Options",
     "formatGroupText": "Format",
     "formatLabelText": "Format:",
@@ -16,23 +18,23 @@
     "resolutionLabelText": "Resolution:",
     "ratioLabelText": "Keep aspect ratio:",
     "convertButtonText": "Convert",
-    "imageTitleText": "Select Images",
-    "outputTitleText": "Select Folder for Saving",
-    "noPathsText": "No folder selected for conversion."
+    "imagesTitleText": "Select images",
+    "outputTitleText": "Select folder",
+    "noPathsText": "No files selected."
   },
   "menuBar": {
     "mainMenuText": "Menu",
     "settingsActionText": "Settings",
-    "aboutActionText": "About the application"
+    "aboutActionText": "About"
   },
   "listWidget": {
-    "pathButton": "Delete"
+    "pathButtonText": "Delete"
   },
   "settingsDialog": {
     "titleText": "Settings",
     "pathGroupText": "Paths",
-    "inputLabelText": "Input path:",
-    "outputLabelText": "Output path:",
+    "inputLabelText": "Input folder:",
+    "outputLabelText": "Output folder:",
     "inputButtonSetText": "Set",
     "inputButtonResetText": "Reset",
     "outputButtonSetText": "Set",
@@ -47,7 +49,7 @@
     "dialogTitleText": "Select folder"
   },
   "aboutDialog": {
-    "titleText": "About the application",
+    "titleText": "About",
     "infoGroupText": "Information",
     "nameLabelText": "Name:",
     "authorLabelText": "Author:",
@@ -56,9 +58,9 @@
     "nameLabelDefaultText": "Image Converter",
     "authorLabelDefaultText": "Jin-Mach",
     "versionLabelDefaultText": "1.0.0",
-    "githubLabelDefaultText": "<a href=\"https://github.com/Jin-Mach/ImageConverter\">GitHub repository</a>",
+    "githubLabelDefaultText": "<a href=\"https://github.com/Jin-Mach/ImageConverter\">GitHub repo</a>",
     "descriptionGroupText": "Description",
-    "descriptionEditText": "A simple tool for converting images into various formats with optional resizing.",
+    "descriptionEditText": "Simple tool to convert images to different formats with optional resizing.",
     "closeButtonText": "Close"
   },
   "errorDialog": {

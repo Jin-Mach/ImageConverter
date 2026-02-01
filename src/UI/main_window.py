@@ -42,6 +42,7 @@ class MainWindow(QMainWindow):
         self.add_images_button.clicked.connect(lambda: self.set_images_path(clear=False))
         self.list_widget = ListWidget(self)
         self.list_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.list_widget.model().rowsRemoved.connect(self.update_images_count_label)
         self.output_group = QGroupBox()
         self.output_group.setObjectName("outputGroup")
         output_layout = QHBoxLayout()
@@ -53,6 +54,12 @@ class MainWindow(QMainWindow):
         self.output_path_button = QPushButton()
         self.output_path_button.setObjectName("outputButton")
         self.output_path_button.clicked.connect(self.set_output_path)
+        delete_layout = QHBoxLayout()
+        self.images_count_label = QLabel()
+        self.images_count_label.setObjectName("imagesCountLabel")
+        self.clear_list_button = QPushButton()
+        self.clear_list_button.setObjectName("clearListButton")
+        self.clear_list_button.clicked.connect(self.clear_list)
         self.options_group = QGroupBox()
         self.options_group.setObjectName("optionsGroup")
         options_layout = QHBoxLayout()
@@ -87,6 +94,9 @@ class MainWindow(QMainWindow):
         output_layout.addWidget(self.output_path_label)
         output_layout.addWidget(self.output_path_edit)
         output_layout.addWidget(self.output_path_button)
+        delete_layout.addWidget(self.images_count_label)
+        delete_layout.addStretch()
+        delete_layout.addWidget(self.clear_list_button)
         format_layout.addWidget(self.format_label)
         format_layout.addWidget(self.format_combobox)
         format_layout.addStretch()
@@ -110,6 +120,7 @@ class MainWindow(QMainWindow):
         self.options_group.setLayout(options_layout)
         main_layout.addWidget(self.images_group)
         main_layout.addWidget(self.list_widget)
+        main_layout.addLayout(delete_layout)
         main_layout.addWidget(self.output_group)
         main_layout.addWidget(self.options_group)
         main_layout.addLayout(convert_layout)
@@ -137,7 +148,11 @@ class MainWindow(QMainWindow):
                 text_key = f"{widget.objectName()}Text"
                 if text_key in self.ui_texts.keys():
                     if isinstance(widget, (QLabel, QPushButton)):
-                        widget.setText(self.ui_texts.get(text_key, default_text))
+                        if widget.objectName() == "imagesCountLabel":
+                            self.images_count_label.setText(
+                                f"{self.ui_texts.get("imagesCountLabelText", "Files count:")} 0")
+                        else:
+                            widget.setText(self.ui_texts.get(text_key, default_text))
                     elif isinstance(widget, QGroupBox):
                         widget.setTitle(self.ui_texts.get(text_key, default_text))
                     elif isinstance(widget, QLineEdit):
@@ -184,13 +199,14 @@ class MainWindow(QMainWindow):
                                                     filter=files_filter)
             if self.selected_paths:
                 self.list_widget.set_items(self.selected_paths, clear)
+            self.update_images_count_label()
         except Exception as e:
             ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
 
     def set_output_path(self) -> None:
         try:
             path = QFileDialog.getExistingDirectory(parent=self,
-                                                    caption=self.ui_texts.get("outputTitleText", "Select path"),
+                                                    caption=self.ui_texts.get("outputTitleText", "Select folder"),
                                                     directory=self.full_output_path)
             if path:
                 self.full_output_path = path
@@ -217,6 +233,13 @@ class MainWindow(QMainWindow):
                                         self.ui_texts.get("noPathsText", "No images selected for conversion"))
         except Exception as e:
             ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
+
+    def update_images_count_label(self) -> None:
+        self.images_count_label.setText(f"{self.ui_texts.get("imagesCountLabelText", "Files count:")} {self.list_widget.count()}")
+
+    def clear_list(self) -> None:
+        self.list_widget.clear()
+        self.update_images_count_label()
 
     def showEvent(self, event: QEvent) -> None:
         screen = QApplication.primaryScreen()

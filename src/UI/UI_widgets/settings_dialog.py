@@ -149,7 +149,7 @@ class SettingsDialog(QDialog):
     def set_path(self, path: str, mode: str) -> None:
         try:
             new_path = QFileDialog.getExistingDirectory(parent=self,
-                                                        caption=self.ui_texts.get("dialogTitleText", "Open directory"),
+                                                        caption=self.ui_texts.get("dialogTitleText", "Select folder"),
                                                         directory=path)
             if new_path:
                 if mode == "input":

@@ -42,7 +42,6 @@ class ProgressDialog(QDialog):
         self.progress_bar.setMaximum(progress_data[1])
 
     def progress_completed(self, paths_data: list[str]) -> None:
-        paths_data = ["/Users/jindrichmachytka/Projects/Python/ImageConverter/image_converter.py "]
         self.progress_bar.setValue(self.progress_bar.maximum())
         if len(paths_data) > 0:
             for path in paths_data:
