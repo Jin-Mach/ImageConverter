@@ -1,0 +1,30 @@
+
+1. Výběr obrázků
+- Klikněte na „Vybrat“ pro výběr nových obrázků a nahrazení stávajícího seznamu.
+- Klikněte na „Přidat“ pro doplnění obrázků do aktuálního seznamu.
+- Podporované formáty jsou definovány v nastavení aplikace.
+
+2. Výběr výstupní složky
+- Klikněte na „Vybrat“ u výstupní cesty a určete, kam se mají uložit převedené obrázky.
+
+3. Formát a rozlišení
+- Zvolte cílový formát obrázků v nabídce „Formát“.
+- Nastavte požadované rozlišení.
+- Pokud je zapnutá volba „Zachovat poměr stran“, obrázky budou převedeny bez deformace.
+
+4. Převod obrázků
+- Po nastavení cesty, formátu a rozlišení klikněte na „Převést“.
+- Během převodu se zobrazí průběhový dialog s indikací dokončení.
+- Pokud některé soubory selžou, budou zobrazeny na konci.
+
+5. Vymazání seznamu
+- Klikněte na „Smazat seznam“ pro odstranění všech vybraných obrázků.
+- Jednotlivé položky lze také smazat přímo ze seznamu kliknutím na tlačítko „Smazat“ u konkrétního souboru.
+
+6. Nastavení aplikace
+- V dialogu „Nastavení“ můžete definovat výchozí cesty pro vstup a výstup, preferovaný formát a výchozí rozlišení obrázků.
+
+Tipy:
+- Filtr souborů zobrazuje pouze podporované formáty.
+- Výstupní složka musí existovat.
+- Převod obrázků ve vysokém rozlišení může trvat déle.

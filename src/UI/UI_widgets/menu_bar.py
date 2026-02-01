@@ -6,6 +6,7 @@ from PyQt6.QtWidgets import QMenuBar, QMenu
 from src.Helpers.error_handler import ErrorHandler
 from src.Helpers.language_provider import LanguageProvider
 from src.UI.UI_widgets.about_dialog import AboutDialog
+from src.UI.UI_widgets.manual_dialog import ManualDialog
 from src.UI.UI_widgets.settings_dialog import SettingsDialog
 
 if TYPE_CHECKING:
@@ -26,10 +27,14 @@ class MenuBar(QMenuBar):
         setting_action = QAction("", main_menu)
         setting_action.setObjectName("settingsAction")
         setting_action.triggered.connect(self.show_settings_dialog)
+        manual_action = QAction("", main_menu)
+        manual_action.setObjectName("manualAction")
+        manual_action.triggered.connect(self.show_manual_dialog)
         about_action = QAction("", main_menu)
         about_action.setObjectName("aboutAction")
         about_action.triggered.connect(self.show_about_dialog)
         main_menu.addAction(setting_action)
+        main_menu.addAction(manual_action)
         main_menu.addSeparator()
         main_menu.addAction(about_action)
         return main_menu
@@ -54,6 +59,13 @@ class MenuBar(QMenuBar):
     def show_about_dialog(self) -> None:
         try:
             dialog = AboutDialog(self)
+            dialog.exec()
+        except Exception as e:
+            ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.main_window)
+
+    def show_manual_dialog(self) -> None:
+        try:
+            dialog = ManualDialog(self.main_window)
             dialog.exec()
         except Exception as e:
             ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self.main_window)

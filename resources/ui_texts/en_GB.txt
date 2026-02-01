@@ -1,0 +1,30 @@
+
+1. Selecting Images
+- Click "Select" to choose new images and replace the existing list.
+- Click "Add" to append images to the current list.
+- Supported formats are defined in the application settings.
+
+2. Choosing Output Folder
+- Click "Select" next to the output path to choose where the converted images will be saved.
+
+3. Format and Resolution
+- Select the target image format from the "Format" dropdown.
+- Set the desired resolution.
+- If "Keep Aspect Ratio" is enabled, images will be converted without distortion.
+
+4. Converting Images
+- After setting the path, format, and resolution, click "Convert".
+- A progress dialog will appear showing the conversion status.
+- Any failed files will be displayed at the end.
+
+5. Clearing the List
+- Click "Clear List" to remove all selected images.
+- Individual items can also be deleted directly from the list using the "Delete" button next to each file.
+
+6. Application Settings
+- In the "Settings" dialog, you can define default input and output paths, preferred format, and default image resolution.
+
+Tips:
+- The file filter shows only supported formats.
+- The output folder must exist.
+- Converting high-resolution images may take longer.

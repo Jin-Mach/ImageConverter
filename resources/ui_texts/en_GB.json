@@ -25,6 +25,7 @@
   "menuBar": {
     "mainMenuText": "Menu",
     "settingsActionText": "Settings",
+    "manualActionText": "Manual",
     "aboutActionText": "About"
   },
   "listWidget": {
@@ -47,6 +48,10 @@
     "saveButtonText": "Save",
     "closeButtonText": "Close",
     "dialogTitleText": "Select folder"
+  },
+  "manualDialog": {
+    "titleText": "Manual",
+    "closeButton": "Close"
   },
   "aboutDialog": {
     "titleText": "About",

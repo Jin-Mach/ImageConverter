@@ -25,6 +25,7 @@
   "menuBar": {
     "mainMenuText": "Menu",
     "settingsActionText": "Nastavení",
+    "manualActionText": "Manuál",
     "aboutActionText": "O aplikaci"
   },
   "listWidget": {
@@ -47,6 +48,10 @@
     "saveButtonText": "Uložit",
     "closeButtonText": "Zavřít",
     "dialogTitleText": "Vybrat složku"
+  },
+  "manualDialog": {
+    "titleText": "Manuál",
+    "closeButtonText": "Zavřít"
   },
   "aboutDialog": {
     "titleText": "O aplikaci",
