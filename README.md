@@ -16,7 +16,7 @@ ImageConverter allows you to select multiple images, convert them to different f
 
 ## Installation
 
-(Tested on macOS, IDE: PyCharm)
+(Tested on macOS and Windows, IDE: PyCharm)
 
 - Clone the repository:
 git clone https://github.com/jindrichmachytka/ImageConverter.git

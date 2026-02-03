@@ -133,6 +133,7 @@ class MainWindow(QMainWindow):
             self.settings_data = SettingsProvider.load_settings_data()
             self.default_data = self.settings_data.get("default", {})
             self.user_data = self.settings_data.get("user", {})
+            self.full_input_path = self.user_data.get("input_path", "")
             self.full_output_path = self.user_data.get("output_path", "")
         except Exception as e:
             ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
@@ -162,10 +163,10 @@ class MainWindow(QMainWindow):
 
     def set_settings_data(self) -> None:
         try:
-            self.image_path_edit.setText(validate_path(self.user_data.get("input_path", "")))
-            self.image_path_edit.setToolTip(self.user_data.get("input_path", ""))
-            self.output_path_edit.setText(validate_path(self.user_data.get("output_path", "")))
-            self.output_path_edit.setToolTip(self.user_data.get("output_path", ""))
+            self.image_path_edit.setText(validate_path(self.full_input_path))
+            self.image_path_edit.setToolTip(self.full_input_path)
+            self.output_path_edit.setText(validate_path(self.full_output_path))
+            self.output_path_edit.setToolTip(self.full_output_path)
             self.format_combobox.addItems(self.default_data.get("format_list", []))
             self.format_combobox.setCurrentText(self.user_data.get("format_value", "JPEG"))
             self.resolution_combobox.addItems(self.default_data.get("resolution_list", []))
@@ -182,6 +183,8 @@ class MainWindow(QMainWindow):
             self.output_path_edit.setToolTip(output_path)
             self.format_combobox.setCurrentText(format_value)
             self.resolution_combobox.setCurrentText(resolution_value)
+            self.full_input_path = input_path
+            self.full_output_path = output_path
         except Exception as e:
             ErrorHandler.exception_handler(self.__class__.__name__, e, parent=self)
 
@@ -195,7 +198,7 @@ class MainWindow(QMainWindow):
             files_filter = f"{self.ui_texts.get('imageFilterText', 'Select images')} ({files.strip()})"
             self.selected_paths, _ = QFileDialog.getOpenFileNames(parent=self,
                                                     caption=self.ui_texts.get("imagesTitleText", "Select images"),
-                                                    directory=self.user_data.get("input_path", ""),
+                                                    directory=self.full_input_path,
                                                     filter=files_filter)
             if self.selected_paths:
                 self.list_widget.set_items(self.selected_paths, clear)
